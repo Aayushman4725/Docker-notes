@@ -1,0 +1,75 @@
+Docker
+
+Docker is a platform for bulding, running and shipping application in a consistent manner.
+
+It provides a package that contains all the environment variables/dependencies to run a applicaiton.
+
+
+
+Container : an isolated environment for running an application 
+Virtual machine : an abstraction of a machine
+
+Container uses the OS of the host which makes it faster.
+Specifically speaking container uses the same kernal as the host which is just like a engine for a car.
+
+Architecture of docker
+
+It follows client-server architecture.
+
+#To install docker
+
+Go to the page docs.docker.com/get-docker
+Check the system requirements.
+When downloading there may be in an error saying some message about wsl2 just go to the link provided and install the wsl kernal which is a linux kernal.
+
+To check if docker is installed in your system do to cmd and type "docker --version"
+
+#using docker
+
+To use docker we add a Dockerfile to the application folder
+A dockerfile is a plain text file that contains the instruction that docker uses to package the application in an image
+An images contains all the things that our application needs to run.
+We tell docker use to use that images to start a container.
+A container is process which has its own file system provided by the image.
+
+After creating the image , we register the image into a registry such as dockerhub. It is similar to github but for docker images instead for repo.
+And we can use that image in any system to run the application.
+
+
+Instruction to use docker:
+Suppose we have a file in the application folder called app.js
+Create a file in your application folder with a name "Dockerfile"
+
+#for this example we are going to use node.
+
+In the Dockerfile write this code:
+	FROM node:alpine 
+		 #here node is a image which is already in the docker hub. But 				 #there are many node image in linux so we use a specific image 			 #which is alpine
+ 
+	COPY . /app 
+		#It copies all the files in the current directory to the app directory 		    	#which the file system creates.
+
+	WORKDIR /app 
+		#this opens the current working directory in the file system of docker 		     	#which is app which we created in the previous line
+
+	CMD node app.js #app.js is file the file we are going to run this command runs the 			#app.js code. If WORKDIR was not used this code line would be 
+			#"CMD node /app/app.js"
+
+Now we go to the terminal tell docker to package up our application. In the teminal we go to the application folder.
+After we reached the application folder we type  "docker build -t hello-docker ." and hit enter.
+#here -t is written to give a tag to our image and hello-docker is the tag name the "." #symbol represents the current directory which specifies the location where the Dockerfile #contains which is the application folder which we are currently in.
+
+To list out the images we created we use "docker image ls" command.
+
+Some Docker commands
+docker version
+docker image ls #lists the images
+docker compose build #builds up the container to load the image
+docker compose up #starts up the container
+docker exec -it <--Container_id--> /bin/bash #to open the terminal in docker
+docker ps #lists the running images
+docker pull <--image_name--> #pulls the image from dockerhub to our local device
+docker run <--image_name--> #runs the image if available in the local device else pulls the 			    #image from docker hub
+
+
+
